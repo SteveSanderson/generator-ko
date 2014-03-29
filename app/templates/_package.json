@@ -1,5 +1,18 @@
 {
-  "name": "package",
+  "name": "mysite",
   "version": "0.0.0",
-  "dependencies": {}
+  "devDependencies": {
+    "gulp": "~3.5.6",
+    "gulp-requirejs": "git://github.com/RobinThrift/gulp-requirejs.git#6fb08d427dda7463a07b25be3fc931f58e660b54",
+    "gulp-concat": "~2.2.0",
+    "gulp-clean": "~0.2.4",
+    "streamqueue": "0.0.5",
+    "event-stream": "~3.1.0",
+    "gulp-replace": "~0.2.0",
+    "gulp-uglify": "~0.2.1",
+    "gulp-insert": "~0.2.0",
+    "gulp-html-replace": "~1.0.0",
+    "deeply": "~0.1.0",
+    "chalk": "~0.4.0"
+  }
 }

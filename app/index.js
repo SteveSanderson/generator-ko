@@ -18,38 +18,26 @@ var KoGenerator = yeoman.generators.Base.extend({
 
   askFor: function () {
     var done = this.async();
-
-    // have Yeoman greet the user
     this.log(this.yeoman);
+    this.log(chalk.magenta('You\'re using the fantastic Knockout app generator.'));
 
-    // replace it with a short and sweet description of your generator
-    this.log(chalk.magenta('You\'re using the fantastic Ko generator.'));
-
-    var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+    var prompts = [];
 
     this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
+      //this.someOption = props.someOption;
 
       done();
     }.bind(this));
   },
 
   app: function () {
-    this.mkdir('app');
-    this.mkdir('app/templates');
+    this.directory('public_dev');
 
-    this.copy('_package.json', 'package.json');
     this.copy('_bower.json', 'bower.json');
-  },
-
-  projectfiles: function () {
-    this.copy('editorconfig', '.editorconfig');
-    this.copy('jshintrc', '.jshintrc');
+    this.copy('_package.json', 'package.json');
+    this.copy('bowerrc', '.bowerrc');
+    this.copy('gitignore', '.gitignore');
+    this.copy('gulpfile.js');
   }
 });
 
