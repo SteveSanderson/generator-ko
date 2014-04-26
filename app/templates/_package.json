@@ -2,8 +2,8 @@
   "name": "mysite",
   "version": "0.0.0",
   "devDependencies": {
-    "gulp": "~3.5.6",
-    "gulp-requirejs": "git://github.com/RobinThrift/gulp-requirejs.git#6fb08d427dda7463a07b25be3fc931f58e660b54",
+    "gulp": "~3.6.2",
+    "gulp-requirejs": "~0.1.3",
     "gulp-concat": "~2.2.0",
     "gulp-clean": "~0.2.4",
     "streamqueue": "0.0.5",
