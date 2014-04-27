@@ -1,4 +1,4 @@
-define(['knockout', 'text!./navBar.html'], function(ko, template) {
+define(['knockout', 'text!./nav-bar.html'], function(ko, template) {
 
   function NavBarViewModel(params) {
 
