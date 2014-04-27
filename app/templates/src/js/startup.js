@@ -1,10 +1,10 @@
 define(['jquery', 'knockout', 'js/router', 'bootstrap'], function($, ko, router) {
 
-  // Preregisters components, specifying where the viewmodels and templates can be found for each.
-  // This also makes them available as custom elements, e.g., <nav-bar></nav-bar>
-  // Learn more: http://knockoutjs.com/documentation/TODO
+  // Components can be packaged as AMD modules, such as the following:
   ko.components.register('nav-bar', { require: 'components/controls/navBar/navBar' });
   ko.components.register('home-page', { require: 'components/pages/home/home' });
+
+  // ... or for template-only components, you can just point to a .html file directly:
   ko.components.register('about-page', {
     template: { require: 'text!components/pages/about/about.html' }
   });
