@@ -31,7 +31,7 @@ var KoGenerator = yeoman.generators.Base.extend({
   },
 
   app: function () {
-    this.directory('public_dev');
+    this.directory('src');
 
     this.copy('_bower.json', 'bower.json');
     this.copy('_package.json', 'package.json');
