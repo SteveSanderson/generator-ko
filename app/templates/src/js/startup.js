@@ -1,4 +1,4 @@
-define(['jquery', 'knockout', 'js/router', 'knockout-customElements', 'bootstrap'], function($, ko, router) {
+define(['jquery', 'knockout', 'js/router', 'bootstrap'], function($, ko, router) {
 
   // Preregisters components, specifying where the viewmodels and templates can be found for each.
   // This also makes them available as custom elements, e.g., <nav-bar></nav-bar>

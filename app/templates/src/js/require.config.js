@@ -10,8 +10,7 @@ var require = {
         "signals":      "bower_components/js-signals/dist/signals.min",
 
         // TODO: Use Bower for these
-        "knockout": "js/lib/knockout-latest",
-        "knockout-customElements": "js/lib/knockout-customElements",
+        "knockout": "js/lib/knockout-latest"
     },
     shim: {
         "bootstrap": { deps: ["jquery"] }
