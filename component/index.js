@@ -2,6 +2,7 @@
 var util = require('util');
 var yeoman = require('yeoman-generator');
 var fs = require('fs');
+var chalk = require('chalk');
 
 var ComponentGenerator = yeoman.generators.NamedBase.extend({
   init: function () {
@@ -18,32 +19,33 @@ var ComponentGenerator = yeoman.generators.NamedBase.extend({
   },
 
   addComponentRegistration: function() {
-  	var startupFile = 'src/js/startup.js';
-  	readIfFileExists.call(this, startupFile, function(existingContents) {
-  		var existingRegistrationRegex = new RegExp('\\bko\\.components\\.register\\(\s*[\'"]' + this.filename + '[\'"]');
-  		if (existingRegistrationRegex.exec(existingContents)) {
-  			console.log('\'' + this.filename + '\' is already registered in ' + startupFile);
-  			return;
-  		}
+    var startupFile = 'src/js/startup.js';
+    readIfFileExists.call(this, startupFile, function(existingContents) {
+        var existingRegistrationRegex = new RegExp('\\bko\\.components\\.register\\(\s*[\'"]' + this.filename + '[\'"]');
+        if (existingRegistrationRegex.exec(existingContents)) {
+            this.log(chalk.white(this.filename) + chalk.cyan(' is already registered in ') + chalk.white(startupFile));
+            return;
+        }
 
-  		var token = '// [Scaffolded component registrations will be inserted here. To retain this feature, don\'t remove this comment.]',
-  			regex = new RegExp('^(\\s*)(' + token.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') + ')', 'm'),
-			lineToAdd = 'ko.components.register(\'' + this.filename + '\', { require: \'components/' + this.filename + '/' + this.filename + '\' });',
-			newContents = existingContents.replace(regex, '$1' + lineToAdd + '\n$&');
-		fs.writeFile(startupFile, newContents);
-		console.log('\'' + this.filename + '\' registered in ' + startupFile);
-  	});
+        var token = '// [Scaffolded component registrations will be inserted here. To retain this feature, don\'t remove this comment.]',
+            regex = new RegExp('^(\\s*)(' + token.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') + ')', 'm'),
+            modulePath = 'components/' + this.filename + '/' + this.filename,
+            lineToAdd = 'ko.components.register(\'' + this.filename + '\', { require: \'' + modulePath + '\' });',
+            newContents = existingContents.replace(regex, '$1' + lineToAdd + '\n$&');
+        fs.writeFile(startupFile, newContents);
+        this.log(chalk.green('   registered ') + chalk.white(this.filename) + chalk.green(' in ') + chalk.white(startupFile));
+
+        if (fs.existsSync('gulpfile.js')) {
+            this.log(chalk.magenta('To include in build output, reference ') + chalk.white('\'' + modulePath + '\'') + chalk.magenta(' in ') + chalk.white('gulpfile.js'));
+        }
+    });
   }
 });
 
 function readIfFileExists(path, callback) {
-	var contents;
-	try {
-		contents = this.readFileAsString(path);
-	} catch(ex) {
-		return;
-	}
-	callback.call(this, contents);
+    if (fs.existsSync(path)) {
+        callback.call(this, this.readFileAsString(path));
+    }
 }
 
 module.exports = ComponentGenerator;
