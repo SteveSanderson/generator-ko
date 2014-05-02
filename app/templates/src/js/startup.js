@@ -9,6 +9,8 @@ define(['jquery', 'knockout', 'js/router', 'bootstrap'], function($, ko, router)
     template: { require: 'text!components/about-page/about.html' }
   });
 
+  // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]
+
   // Start the application
   ko.applyBindings({ route: router.currentRoute });
 });

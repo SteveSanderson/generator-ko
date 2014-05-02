@@ -1,5 +1,5 @@
 {
-  "name": "mysite",
+  "name": "<%= _.slugify(name) %>",
   "version": "0.0.0",
   "devDependencies": {
     "gulp": "~3.6.2",

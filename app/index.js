@@ -24,7 +24,7 @@ var KoGenerator = yeoman.generators.Base.extend({
     var prompts = [];
 
     this.prompt(prompts, function (props) {
-      //this.someOption = props.someOption;
+      this.name = 'Some Site Name';
 
       done();
     }.bind(this));
