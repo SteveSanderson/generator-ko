@@ -3,14 +3,12 @@
   "version": "0.0.0",
   "devDependencies": {
     "gulp": "~3.6.2",
-    "gulp-requirejs": "~0.1.3",
+    "gulp-requirejs-bundler": "^0.1.1",
     "gulp-concat": "~2.2.0",
     "gulp-clean": "~0.2.4",
-    "streamqueue": "0.0.5",
     "event-stream": "~3.1.0",
     "gulp-replace": "~0.2.0",
     "gulp-uglify": "~0.2.1",
-    "gulp-insert": "~0.2.0",
     "gulp-html-replace": "~1.0.0",
     "deeply": "~0.1.0",
     "chalk": "~0.4.0"
