@@ -1,5 +1,5 @@
 {
-  "name": "<%= _.slugify(name) %>",
+  "name": "<%= slugName %>",
   "version": "0.0.0",
   "devDependencies": {
     "gulp": "~3.6.2",
