@@ -23,7 +23,7 @@ var KoGenerator = yeoman.generators.Base.extend({
     var prompts = [{
       name: 'name',
       message: 'What\'s the name of your new site?',
-      default: path.basename(__dirname)
+      default: path.basename(process.cwd())
     }];
 
     this.prompt(prompts, function (props) {
