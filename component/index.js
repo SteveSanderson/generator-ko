@@ -5,6 +5,7 @@ var fs = require('fs');
 var chalk = require('chalk');
 
 var ComponentGenerator = yeoman.generators.NamedBase.extend({
+
   init: function () {
     console.log('Creating component \'' + this.name + '\'...');
     this.componentName = this.name;
@@ -40,6 +41,7 @@ var ComponentGenerator = yeoman.generators.NamedBase.extend({
         }
     });
   }
+
 });
 
 function readIfFileExists(path, callback) {
