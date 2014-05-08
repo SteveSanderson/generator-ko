@@ -6,13 +6,13 @@ var gulp = require('gulp'), rjs = require('gulp-requirejs-bundler'), concat = re
     replace = require('gulp-replace'), uglify = require('gulp-uglify'), htmlreplace = require('gulp-html-replace');
 
 // Config
-var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/js/require.config.js') + '; require;');
+var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require.config.js') + '; require;');
     requireJsOptimizerConfig = merge(requireJsRuntimeConfig, {
         out: 'scripts.js',
         baseUrl: './src',
-        name: 'js/startup',
+        name: 'app/startup',
         paths: {
-            requireLib: 'bower_components/requirejs/require'
+            requireLib: 'bower_modules/requirejs/require'
         },
         include: [
             'requireLib',
@@ -20,7 +20,7 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/js/require.
             'components/home-page/home',
             'text!components/about-page/about.html'
         ],
-        insertRequire: ['js/startup'],
+        insertRequire: ['app/startup'],
         bundles: {
             // If you want parts of the site to load on demand, remove them from the 'include' list
             // above, and group them into bundles here.
@@ -38,11 +38,11 @@ gulp.task('js', function () {
 
 // Concatenates CSS files, rewrites relative paths to Bootstrap fonts, copies Bootstrap fonts
 gulp.task('css', function () {
-    var bowerCss = gulp.src('src/bower_components/components-bootstrap/css/bootstrap.min.css')
+    var bowerCss = gulp.src('src/bower_modules/components-bootstrap/css/bootstrap.min.css')
             .pipe(replace(/url\((')?\.\.\/fonts\//g, 'url($1fonts/')),
         appCss = gulp.src('src/css/*.css'),
         combinedCss = es.concat(bowerCss, appCss).pipe(concat('css.css')),
-        fontFiles = gulp.src('./src/bower_components/components-bootstrap/fonts/*', { base: './src/bower_components/components-bootstrap/' });
+        fontFiles = gulp.src('./src/bower_modules/components-bootstrap/fonts/*', { base: './src/bower_modules/components-bootstrap/' });
     return es.concat(combinedCss, fontFiles)
         .pipe(gulp.dest('./dist/'));
 });
