@@ -10,6 +10,7 @@
     "gulp-replace": "~0.2.0",
     "gulp-uglify": "~0.2.1",
     "gulp-html-replace": "~1.0.0",
+<% if(usesTypeScript) { %>    "gulp-tsc": "^0.7.0",<% } %>
     "deeply": "~0.1.0",
     "chalk": "~0.4.0"
   }

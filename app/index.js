@@ -4,6 +4,11 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 
+var languageChoice = {
+  js: 'JavaScript',
+  ts: 'TypeScript'
+};
+
 var KoGenerator = yeoman.generators.Base.extend({
   init: function () {
     this.pkg = require('../package.json');
@@ -24,27 +29,42 @@ var KoGenerator = yeoman.generators.Base.extend({
       name: 'name',
       message: 'What\'s the name of your new site?',
       default: path.basename(process.cwd())
+    }, {
+      type: 'list',
+      name: 'codeLanguage',
+      message: 'What language do you want to use?',
+      choices: [languageChoice.js, languageChoice.ts]
     }];
 
     this.prompt(prompts, function (props) {
       this.longName = props.name;
       this.slugName = this._.slugify(this.longName);
+      this.usesTypeScript = props.codeLanguage === languageChoice.ts;
       done();
     }.bind(this));
   },
 
   templating: function () {
-    this._processDirectory('src', 'src')
+    var excludeExtension = this.usesTypeScript ? '.js' : '.ts';
+    this._processDirectory('src', 'src', excludeExtension)
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
-    this.copy('gulpfile.js');
+    this.template('_gulpfile.js', 'gulpfile.js');
     this.copy('bowerrc', '.bowerrc');
     this.copy('gitignore', '.gitignore');
+
+    // Explicitly copy the .js files used by the .ts output, since they're otherwise excluded
+    if (this.usesTypeScript) {
+      this.copy('src/app/lib/knockout-latest.js');
+      this.copy('src/app/require.config.js');
+    }
   },
 
-  _processDirectory: function(source, destination) {
+  _processDirectory: function(source, destination, excludeExtension) {
     var root = this.isPathAbsolute(source) ? source : path.join(this.sourceRoot(), source);
-    var files = this.expandFiles('**', { dot: true, cwd: root });
+    var files = this.expandFiles('**', { dot: true, cwd: root }).filter(function(filename) {
+      return path.extname(filename) !== excludeExtension;
+    });
 
     for (var i = 0; i < files.length; i++) {
         var f = files[i];

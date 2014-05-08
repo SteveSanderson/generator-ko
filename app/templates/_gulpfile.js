@@ -3,7 +3,7 @@ var fs = require('fs'), vm = require('vm'), merge = require('deeply'), chalk = r
 
 // Gulp and plugins
 var gulp = require('gulp'), rjs = require('gulp-requirejs-bundler'), concat = require('gulp-concat'), clean = require('gulp-clean'),
-    replace = require('gulp-replace'), uglify = require('gulp-uglify'), htmlreplace = require('gulp-html-replace');
+    replace = require('gulp-replace'), uglify = require('gulp-uglify'), htmlreplace = require('gulp-html-replace')<% if(usesTypeScript) { %>, typescript = require('gulp-tsc')<% } %>;
 
 // Config
 var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require.config.js') + '; require;');
@@ -28,7 +28,15 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
             // 'another-bundle-name': [ 'yet-another-module' ]
         }
     });
-
+<% if (usesTypeScript) { %>
+// Compile all .ts files, producing .js files alongside them
+// TODO: Can we output a single .js file, with source maps pointing back to all the .ts files?
+gulp.task('ts', function() {
+    return gulp.src(['src/**/*.ts'])
+        .pipe(typescript())
+        .pipe(gulp.dest('src/'));
+});
+<% } %>
 // Discovers all AMD dependencies, concatenates together all required .js files, minifies them
 gulp.task('js', function () {
     return rjs(requireJsOptimizerConfig)
