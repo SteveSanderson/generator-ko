@@ -1,6 +1,3 @@
-/// <reference path="./definitions/crossroads/crossroads.d.ts" />
-/// <reference path="./definitions/hasher/hasher.d.ts" />
-
 // This module configures crossroads.js, a routing library. If you prefer, you
 // can use any other routing library (or none at all) as Knockout is designed to
 // compose cleanly with external libraries.
@@ -13,35 +10,27 @@
 import ko = require("knockout");
 import crossroads = require("crossroads");
 import hasher = require("hasher");
-
-var router: any = new Router({
-    routes: [
-        { url: '',          params: { page: 'home-page' } },
-        { url: 'about',     params: { page: 'about-page' } }
-    ]
-});
-
 export = router;
 
-class Router {
+module router {    
+    export var currentRoute = ko.observable<any>({});
 
-    public currentRoute = ko.observable<any>({});
+    var allRoutes = [
+        { url: '',          params: { page: 'home-page' } },
+        { url: 'about',     params: { page: 'about-page' } }
+    ];
 
-    constructor(config: any) {
-        ko.utils.arrayForEach(config.routes, (route: any) => {
-            crossroads.addRoute(route.url, (requestParams) => {
-                this.currentRoute(ko.utils.extend(requestParams, route.params));
-            });
+    // Register routes with crossroads.js
+    ko.utils.arrayForEach(allRoutes, (route) => {
+        crossroads.addRoute(route.url, (requestParams) => {
+            currentRoute(ko.utils.extend(requestParams, route.params));
         });
+    });
 
-        this._activateCrossroads();
-    }
-
-    private _activateCrossroads(): void {
-        function parseHash(newHash, oldHash) { crossroads.parse(newHash); }
-        crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
-        hasher.initialized.add(parseHash);
-        hasher.changed.add(parseHash);
-        hasher.init();
-    }
+    // Activate crossroads
+    function parseHash(newHash, oldHash) { crossroads.parse(newHash); }
+    crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
+    hasher.initialized.add(parseHash);
+    hasher.changed.add(parseHash);
+    hasher.init();
 }

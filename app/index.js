@@ -50,8 +50,8 @@ var KoGenerator = yeoman.generators.Base.extend({
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
     this.template('_gulpfile.js', 'gulpfile.js');
+    this.template('_gitignore', '.gitignore');
     this.copy('bowerrc', '.bowerrc');
-    this.copy('gitignore', '.gitignore');
 
     // Explicitly copy the .js files used by the .ts output, since they're otherwise excluded
     if (this.usesTypeScript) {
