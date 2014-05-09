@@ -56,9 +56,10 @@ var KoGenerator = yeoman.generators.Base.extend({
     this.template('_gitignore', '.gitignore');
     this.copy('bowerrc', '.bowerrc');
 
-    // Set up test folder
+    // Set up tests
     this._processDirectory('test', 'test', excludeExtension);
     this.copy('bowerrc_test', 'test/.bowerrc');
+    this.copy('karma.conf.js');
 
     // Explicitly copy the .js files used by the .ts output, since they're otherwise excluded
     if (this.usesTypeScript) {
