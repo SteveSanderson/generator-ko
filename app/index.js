@@ -17,8 +17,10 @@ var KoGenerator = yeoman.generators.Base.extend({
       if (!this.options['skip-install']) {
         this.installDependencies();
 
-        // Install test dependencies too
-        this.spawnCommand('bower', ['install'], { cwd: 'test' })
+        if (this.includeTests) {
+          // Install test dependencies too
+          this.spawnCommand('bower', ['install'], { cwd: 'test' });
+        }
       }
     });
   },
@@ -37,12 +39,18 @@ var KoGenerator = yeoman.generators.Base.extend({
       name: 'codeLanguage',
       message: 'What language do you want to use?',
       choices: [languageChoice.js, languageChoice.ts]
+    }, {
+      type: 'confirm',
+      name: 'includeTests',
+      message: 'Do you want to include automated tests, using Jasmine and Karma?',
+      default: true
     }];
 
     this.prompt(prompts, function (props) {
       this.longName = props.name;
       this.slugName = this._.slugify(this.longName);
       this.usesTypeScript = props.codeLanguage === languageChoice.ts;
+      this.includeTests = props.includeTests;
       done();
     }.bind(this));
   },
@@ -56,16 +64,21 @@ var KoGenerator = yeoman.generators.Base.extend({
     this.template('_gitignore', '.gitignore');
     this.copy('bowerrc', '.bowerrc');
 
-    // Set up tests
-    this._processDirectory('test', 'test', excludeExtension);
-    this.copy('bowerrc_test', 'test/.bowerrc');
-    this.copy('karma.conf.js');
+    if (this.includeTests) {
+      // Set up tests
+      this._processDirectory('test', 'test', excludeExtension);
+      this.copy('bowerrc_test', 'test/.bowerrc');
+      this.copy('karma.conf.js');
+    }
 
     // Explicitly copy the .js files used by the .ts output, since they're otherwise excluded
     if (this.usesTypeScript) {
       this.copy('src/app/lib/knockout-latest.js');
       this.copy('src/app/require.config.js');
-      this.copy('test/require.config.js');
+      
+      if (this.includeTests) {
+        this.copy('test/require.config.js');
+      }
     }
   },
 
