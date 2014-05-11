@@ -18,7 +18,7 @@ var KoGenerator = yeoman.generators.Base.extend({
         this.installDependencies();
 
         // Install test dependencies too
-        this.spawnCommand('bower', ['install'], { cwd: 'test'})
+        this.spawnCommand('bower', ['install'], { cwd: 'test' })
       }
     });
   },
@@ -65,6 +65,7 @@ var KoGenerator = yeoman.generators.Base.extend({
     if (this.usesTypeScript) {
       this.copy('src/app/lib/knockout-latest.js');
       this.copy('src/app/require.config.js');
+      this.copy('test/require.config.js');
     }
   },
 

@@ -5,3 +5,4 @@
 /// <reference path="app/definitions/crossroads/crossroads.d.ts" />
 /// <reference path="app/definitions/hasher/hasher.d.ts" />
 declare var require;
+declare var define;
