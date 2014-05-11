@@ -30,15 +30,14 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
     });
 <% if (usesTypeScript) { %>
 // Compile all .ts files, producing .js and source map files alongside them
-// TODO: Can we output a single .js file, with source maps pointing back to all the .ts files?
 gulp.task('ts', function() {
-    return gulp.src(['src/**/*.ts'])
+    return gulp.src(['**/*.ts'])
         .pipe(typescript({
             module: 'amd',
             sourcemap: true,
-            outDir: 'src/'
+            outDir: './'
         }))
-        .pipe(gulp.dest('src/'));
+        .pipe(gulp.dest('./'));
 });
 <% } %>
 // Discovers all AMD dependencies, concatenates together all required .js files, minifies them
