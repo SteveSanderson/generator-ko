@@ -2,12 +2,13 @@
 var require = {
     baseUrl: ".",
     paths: {
-        "text":         "bower_modules/requirejs-text/text",
-        "jquery":       "bower_modules/jquery/dist/jquery",
-        "bootstrap":    "bower_modules/components-bootstrap/js/bootstrap.min",
-        "crossroads":   "bower_modules/crossroads/dist/crossroads.min",
-        "hasher":       "bower_modules/hasher/dist/js/hasher.min",
-        "signals":      "bower_modules/js-signals/dist/signals.min",
+        "text":                 "bower_modules/requirejs-text/text",
+        "jquery":               "bower_modules/jquery/dist/jquery",
+        "bootstrap":            "bower_modules/components-bootstrap/js/bootstrap.min",
+        "crossroads":           "bower_modules/crossroads/dist/crossroads.min",
+        "hasher":               "bower_modules/hasher/dist/js/hasher.min",
+        "signals":              "bower_modules/js-signals/dist/signals.min",
+        "knockout-projections": "bower_modules/knockout-projections/dist/knockout-projections",
 
         // TODO: Use Bower for these
         "knockout": "app/lib/knockout-latest"
