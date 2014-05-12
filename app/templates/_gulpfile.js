@@ -67,13 +67,24 @@ gulp.task('html', function() {
         }))
         .pipe(gulp.dest('./dist/'));
 });
-
+<% if (!usesTypeScript) { %>
 // Removes all files from ./dist/
 gulp.task('clean', function() {
     return gulp.src('./dist/**/*', { read: false })
         .pipe(clean());
 });
-
+<% } else { %>
+// Removes all files from ./dist/, and the .js/.js.map files compiled from .ts
+gulp.task('clean', function() {
+    var distContents = gulp.src('./dist/**/*', { read: false }),
+        generatedJs = gulp.src(['src/**/*.js', 'src/**/*.js.map'<% if(includeTests) { %>, 'test/**/*.js', 'test/**/*.js.map'<% } %>], { read: false })
+            .pipe(es.mapSync(function(data) {
+                // Include only the .js/.js.map files that correspond to a .ts file
+                return fs.existsSync(data.path.replace(/\.js(\.map)?$/, '.ts')) ? data : undefined;
+            }));
+    return es.merge(distContents, generatedJs).pipe(clean());
+});
+<% } %>
 gulp.task('default', ['html', 'js', 'css'], function(callback) {
     callback();
     console.log('\nPlaced optimized files in ' + chalk.magenta('dist/\n'));
