@@ -15,12 +15,32 @@ var KoGenerator = yeoman.generators.Base.extend({
 
     this.on('end', function () {
       if (!this.options['skip-install']) {
-        this.installDependencies();
+        // Figure out whether we have an internet connection. If not, need to
+        // pass --offline to bower otherwise it won't fall back on cache.
+        require('dns').resolve('example.com', function(isOffline) {
+          console.log('Installing dependencies in ' + (isOffline ? 'offline' : 'online') + ' mode...');
+          if (isOffline) {
+            // Patch bowerInstall to pass --offline
+            this.bowerInstall = (function(originalFunction) {
+              return function(paths, options, cb) {
+                options = options || {};
+                options.offline = true;
+                return originalFunction.call(this, paths, options, cb);
+              };
+            })(this.bowerInstall);
+          }
 
-        if (this.includeTests) {
-          // Install test dependencies too
-          this.spawnCommand('bower', ['install'], { cwd: 'test' });
-        }
+          this.installDependencies();
+
+          if (this.includeTests) {
+            // Install test dependencies too
+            var bowerArgs = ['install'];
+            if (isOffline) {
+              bowerArgs.push('--offline');
+            }
+            this.spawnCommand('bower', bowerArgs, { cwd: 'test' });
+          }
+        }.bind(this));
       }
     });
   },
