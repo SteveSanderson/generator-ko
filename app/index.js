@@ -93,8 +93,8 @@ var KoGenerator = yeoman.generators.Base.extend({
 
     // Explicitly copy the .js files used by the .ts output, since they're otherwise excluded
     if (this.usesTypeScript) {
-      this.copy('src/app/lib/knockout-latest.js');
       this.copy('src/app/require.config.js');
+      this._processDirectory('definitions', 'definitions');
       
       if (this.includeTests) {
         this.copy('test/require.config.js');
@@ -105,7 +105,7 @@ var KoGenerator = yeoman.generators.Base.extend({
   _processDirectory: function(source, destination, excludeExtension) {
     var root = this.isPathAbsolute(source) ? source : path.join(this.sourceRoot(), source);
     var files = this.expandFiles('**', { dot: true, cwd: root }).filter(function(filename) {
-      return path.extname(filename) !== excludeExtension;
+      return !excludeExtension || path.extname(filename) !== excludeExtension;
     });
 
     for (var i = 0; i < files.length; i++) {

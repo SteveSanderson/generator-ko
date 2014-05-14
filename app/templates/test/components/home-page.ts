@@ -1,4 +1,4 @@
-/// <reference path="../definitions/jasmine.d.ts" />
+/// <reference path="../../definitions/jasmine/jasmine.d.ts" />
 
 define(["components/home-page/home"], (homePage) => {
     var HomePageViewModel = homePage.viewModel;
