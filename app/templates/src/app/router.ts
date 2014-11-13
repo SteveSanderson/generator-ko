@@ -12,8 +12,11 @@ import crossroads = require("crossroads");
 import hasher = require("hasher");
 export = router;
 
-module router {    
-    export var currentRoute = ko.observable<any>({});
+module router {
+    /**
+     * An observable value that changes to represent the current route.
+     */
+    export var currentRoute = ko.observable(<RouteEntry>{});
 
     var allRoutes = [
         { url: '',          params: { page: 'home-page' } },
@@ -23,7 +26,7 @@ module router {
     // Register routes with crossroads.js
     ko.utils.arrayForEach(allRoutes, (route) => {
         crossroads.addRoute(route.url, (requestParams) => {
-            currentRoute(ko.utils.extend(requestParams, route.params));
+            currentRoute(<RouteEntry>ko.utils.extend(requestParams, route.params));
         });
     });
 
@@ -33,4 +36,16 @@ module router {
     hasher.initialized.add(parseHash);
     hasher.changed.add(parseHash);
     hasher.init();
+
+    export interface RouteEntry {
+        /**
+         * The URL pattern matched by this route entry
+         */
+        url: string;
+
+        /**
+         * Parameters extracted from the URL, or defined on this route entry
+         */
+        params: { [key: string]: string };
+    }
 }

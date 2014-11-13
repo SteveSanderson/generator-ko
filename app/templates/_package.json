@@ -2,7 +2,7 @@
   "name": "<%= slugName %>",
   "version": "0.0.0",
   "devDependencies": {
-    "gulp": "~3.6.2",
+    "gulp": "^3.6.2",
     "gulp-requirejs-bundler": "^0.1.1",
     "gulp-concat": "~2.2.0",
     "gulp-clean": "~0.2.4",
@@ -12,6 +12,7 @@
     "gulp-html-replace": "~1.0.0",
 <% if(usesTypeScript) { %>
     "gulp-tsc": "^0.7.0",
+    "typescript": "1.0.1",
 <% } %>
 <% if(includeTests) { %>
     "karma": "^0.12.15",
