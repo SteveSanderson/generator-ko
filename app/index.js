@@ -4,11 +4,6 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 
-var languageChoice = {
-  js: 'JavaScript',
-  ts: 'TypeScript'
-};
-
 var KoGenerator = yeoman.generators.Base.extend({
   init: function () {
     this.pkg = require('../package.json');
@@ -55,11 +50,6 @@ var KoGenerator = yeoman.generators.Base.extend({
       message: 'What\'s the name of your new site?',
       default: path.basename(process.cwd())
     }, {
-      type: 'list',
-      name: 'codeLanguage',
-      message: 'What language do you want to use?',
-      choices: [languageChoice.js, languageChoice.ts]
-    }, {
       type: 'confirm',
       name: 'includeTests',
       message: 'Do you want to include automated tests, using Jasmine and Karma?',
@@ -69,15 +59,13 @@ var KoGenerator = yeoman.generators.Base.extend({
     this.prompt(prompts, function (props) {
       this.longName = props.name;
       this.slugName = this._.slugify(this.longName);
-      this.usesTypeScript = props.codeLanguage === languageChoice.ts;
       this.includeTests = props.includeTests;
       done();
     }.bind(this));
   },
 
   templating: function () {
-    var excludeExtension = this.usesTypeScript ? '.js' : '.ts';
-    this._processDirectory('src', 'src', excludeExtension);
+    this._processDirectory('src', 'src');
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
     this.template('_gulpfile.js', 'gulpfile.js');
@@ -86,27 +74,15 @@ var KoGenerator = yeoman.generators.Base.extend({
 
     if (this.includeTests) {
       // Set up tests
-      this._processDirectory('test', 'test', excludeExtension);
+      this._processDirectory('test', 'test');
       this.copy('bowerrc_test', 'test/.bowerrc');
       this.copy('karma.conf.js');
     }
-
-    // Explicitly copy the .js files used by the .ts output, since they're otherwise excluded
-    if (this.usesTypeScript) {
-      this.copy('src/app/require.config.js');
-      this._processDirectory('definitions', 'definitions');
-      
-      if (this.includeTests) {
-        this.copy('test/require.config.js');
-      }
-    }
   },
 
-  _processDirectory: function(source, destination, excludeExtension) {
+  _processDirectory: function(source, destination) {
     var root = this.isPathAbsolute(source) ? source : path.join(this.sourceRoot(), source);
-    var files = this.expandFiles('**', { dot: true, cwd: root }).filter(function(filename) {
-      return !excludeExtension || path.extname(filename) !== excludeExtension;
-    });
+    var files = this.expandFiles('**', { dot: true, cwd: root });
 
     for (var i = 0; i < files.length; i++) {
         var f = files[i];

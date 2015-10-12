@@ -1,6 +1,6 @@
 {
   "name": "generator-ko",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Yeoman generator",
   "license": "MIT",
   "main": "app/index.js",
@@ -29,8 +29,5 @@
   },
   "devDependencies": {
     "mocha": "*"
-  },
-  "peerDependencies": {
-    "yo": ">=1.0.0"
   }
 }

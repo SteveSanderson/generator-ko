@@ -10,10 +10,6 @@
     "gulp-replace": "~0.2.0",
     "gulp-uglify": "~0.2.1",
     "gulp-html-replace": "~1.0.0",
-<% if(usesTypeScript) { %>
-    "gulp-tsc": "^0.7.0",
-    "typescript": "1.0.1",
-<% } %>
 <% if(includeTests) { %>
     "karma": "^0.12.15",
     "karma-chrome-launcher": "^0.1.3",

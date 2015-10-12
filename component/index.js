@@ -7,12 +7,11 @@ var chalk = require('chalk');
 var ComponentGenerator = yeoman.generators.NamedBase.extend({
 
   detectCodeLanguage: function() {
-    this.usesTypeScript = fs.existsSync('src/app/startup.ts');
-    this.codeFileExtension = this.usesTypeScript ? '.ts' : '.js';
+    this.codeFileExtension = '.js';
   },
 
   init: function () {
-    var codeLanguage = this.usesTypeScript ? 'TypeScript' : 'JavaScript';
+    var codeLanguage = 'JavaScript';
     console.log('Creating component \'' + this.name + '\' (' + codeLanguage + ')...');
     this.componentName = this.name;
     this.dirname = 'src/components/' + this._.dasherize(this.name) + '/';
@@ -21,7 +20,7 @@ var ComponentGenerator = yeoman.generators.NamedBase.extend({
   },
 
   template: function () {
-    var codeExtension = this.usesTypeScript ? '.ts' : '.js';
+    var codeExtension = '.js';
     this.copy('view.html', this.dirname + this.filename + '.html');
     this.copy('viewmodel' + this.codeFileExtension, this.dirname + this.filename + this.codeFileExtension);
   },
