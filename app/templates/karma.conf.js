@@ -25,12 +25,26 @@ module.exports = function(config) {
     exclude: [
       
     ],
-
+    
+    plugins: [
+        'karma-jasmine',
+        'karma-requirejs',
+        'karma-babel-preprocessor',
+        'karma-requireglobal-preprocessor',
+        'karma-chrome-launcher'
+    ],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        '**/require.config.js': ['requireglobal']
+        '**/require.config.js': ['requireglobal'],
+        'src/app/router.js': ['babel'],
+        'src/app/startup.js': ['babel'],
+        'src/components/**/*.js': ['babel']
+    },
+    
+    babelPreprocessor: {
+        options: { modules: 'amd' }  
     },
 
 

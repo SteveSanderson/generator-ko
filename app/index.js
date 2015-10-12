@@ -71,6 +71,7 @@ var KoGenerator = yeoman.generators.Base.extend({
     this.template('_gulpfile.js', 'gulpfile.js');
     this.template('_gitignore', '.gitignore');
     this.copy('bowerrc', '.bowerrc');
+    this.copy('jsconfig.json');
 
     if (this.includeTests) {
       // Set up tests
